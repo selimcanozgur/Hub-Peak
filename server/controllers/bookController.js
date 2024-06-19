@@ -34,8 +34,6 @@ const getOneBook = catchAsync(async function (req, res, next) {
 });
 
 const createBook = catchAsync(async function (req, res, next) {
-  req.body.user = req.user.id;
-
   const newBook = await Book.create(req.body);
   res.status(201).json({
     status: true,

@@ -24,6 +24,7 @@ Router.post("/password/forgot", forgotPassword);
 Router.get("/logout", logout);
 Router.put("/password/reset/:token", resetPassword);
 
+// -- User --
 Router.put("/update/profile", isAuthenticatedUser, updateProfile);
 Router.put("/update/password", isAuthenticatedUser, updatePassword);
 Router.get("/getUser", isAuthenticatedUser, getUserDetail);
@@ -34,6 +35,7 @@ Router.route("/admin").get(
   getAllUsers
 );
 
+// -- Admin --
 Router.route("/admin/:id")
   .get(isAuthenticatedUser, authorizeRoles("admin"), getOneUser)
   .put(isAuthenticatedUser, authorizeRoles("admin"), updateRole)

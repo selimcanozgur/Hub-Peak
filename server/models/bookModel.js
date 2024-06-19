@@ -50,16 +50,7 @@ const bookSchema = new mongoose.Schema({
     type: Number,
     required: [true, "Lütfen kitabın fiyatını giriniz."],
   },
-  imageCover: {
-    type: String,
-    required: [true, "Kitabın bir kapak resmi olmalı"],
-  },
-  images: [String],
-  user: {
-    type: mongoose.Schema.ObjectId,
-    ref: "User",
-    required: true,
-  },
+  images: String,
   createdAt: {
     type: Date,
     default: Date.now(),

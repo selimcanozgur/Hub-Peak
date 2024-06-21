@@ -9,22 +9,24 @@ import {
   bookDetailRequest,
 } from "../feuatures/book/bookSlice";
 
-export const getAllBook = async (dispatch) => {
+const API = import.meta.env.VITE_API;
+
+// Get All Book
+export const getAllBook = (keyword) => async (dispatch) => {
   try {
     dispatch(allBookRequest());
-    const { data } = await axios.get("http://127.0.0.1:3000/api/v1/books");
+    const { data } = await axios.get(`${API}/?keyword=${keyword}`);
     dispatch(allBookSuccess(data));
   } catch (err) {
     dispatch(allBookFail(err.response.data.message));
   }
 };
 
-export const bookDetail = async (dispatch, id) => {
+// Get One Book
+export const bookDetail = (id) => async (dispatch) => {
   try {
     dispatch(bookDetailRequest());
-    const { data } = await axios.get(
-      `http://127.0.0.1:3000/api/v1/books/${id}`
-    );
+    const { data } = await axios.get(`${API}/${id}`);
     dispatch(bookDetailSuccess(data));
   } catch (err) {
     dispatch(bookDetailFail(err.response.data.message));

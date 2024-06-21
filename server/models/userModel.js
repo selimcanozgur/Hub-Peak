@@ -25,16 +25,9 @@ const userSchema = new mongoose.Schema({
     minlength: 8,
     select: false,
   },
-
-  avatar: {
-    public_id: {
-      type: String,
-      required: true,
-    },
-    url: {
-      type: String,
-      required: true,
-    },
+  image: {
+    type: String,
+    default: "",
   },
   role: {
     type: String,
@@ -53,13 +46,6 @@ userSchema.pre("save", async function (next) {
   }
   this.password = await bcrypt.hash(this.password, 10);
 });
-
-// Get Token
-userSchema.methods.getJWTToken = function () {
-  return jwt.sign({ id: this.id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES,
-  });
-};
 
 // Kullanıcının oluşturduğu şifre ile hash edilen şifreyi eşledik.
 

@@ -6,6 +6,17 @@ const initialState = {
   bookCount: null,
   loading: false,
   error: false,
+  keyword: "",
+};
+
+const setLoading = (state) => {
+  state.loading = true;
+  state.error = false;
+};
+
+const setFail = (state, action) => {
+  state.error = action.payload;
+  state.loading = false;
 };
 
 export const bookSlice = createSlice({
@@ -13,30 +24,23 @@ export const bookSlice = createSlice({
   initialState,
   reducers: {
     // All Book
+    allBookRequest: setLoading,
     allBookSuccess: (state, action) => {
       state.books = action.payload.books;
-      state.bookCount = action.payload;
+      state.bookCount = action.payload.bookCount;
       state.loading = false;
     },
-    allBookRequest: (state) => {
-      state.loading = true;
-      state.error = false;
-    },
-    allBookFail: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
+    allBookFail: setFail,
     // Book Detail
+    bookDetailRequest: setLoading,
     bookDetailSuccess: (state, action) => {
       state.book = action.payload.book;
       state.loading = false;
     },
-    bookDetailRequest: (state) => {
-      state.loading = true;
-      state.error = false;
-    },
-    bookDetailFail: (state, action) => {
-      state.error = action.payload;
+    bookDetailFail: setFail,
+    // Book Search
+    bookSearch: (state, action) => {
+      state.keyword = action.payload;
       state.loading = false;
     },
   },
@@ -50,6 +54,7 @@ export const {
   bookDetailSuccess,
   bookDetailRequest,
   bookDetailFail,
+  bookSearch,
 } = bookSlice.actions;
 
 export default bookSlice.reducer;

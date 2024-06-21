@@ -1,43 +1,62 @@
 import User from "../models/userModel.js";
 import catchAsync from "../utils/catchAsync.js";
 import apiError from "../utils/apiError.js";
-import sendToken from "../utils/jwtToken.js";
 import sendEmail from "../utils/sendEmail.js";
 import crypto from "crypto";
+import jwt from "jsonwebtoken";
+
+const signToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES,
+  });
+};
+
+const createSendToken = (user, statusCode, req, res) => {
+  const token = signToken(user._id);
+
+  res.cookie("jwt", token, {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+    secure: req.secure || req.headers["x-forwarded-proto"] === "https",
+  });
+
+  // Remove password from output
+  user.password = undefined;
+
+  res.status(statusCode).json({
+    status: "success",
+    token,
+    user,
+  });
+};
 
 // Signup
 const signup = catchAsync(async function (req, res, next) {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, image, role } = req.body;
   const user = await User.create({
     name,
     email,
     password,
+    image,
     role,
-    avatar: {
-      public_id: "Basit bir ID",
-      url: "profilepicUrl",
-    },
   });
-
-  sendToken(user, 201, res);
+  createSendToken(user, 201, req, res);
 });
 
 // Login
 const login = catchAsync(async function (req, res, next) {
   const { email, password } = req.body;
 
-  // E-Posta veya şifre girilmediyse döndürülen hata mesajı
   if (!email || !password) {
     return next(new apiError("E-Posta ve şifreyi giriniz", 400));
   }
-  // 1) İlk adım böyle bir kullanıcı var mı kontrolünü yapar
   const user = await User.findOne({ email }).select("+password");
-  // 2) İkinci adımda ise comparePassword fonksiyonu ile kullanıcının oluşturduğu
-  // şifre ile hash edilen şifreyi eşler ve e-posta veya şifre yanlış mı kontrol eder.
+
   if (!user) {
     return next(new apiError("Geçersiz e-posta veya şifre", 401));
   }
-
   const isPasswordMatched = await user.comparePassword(password);
 
   if (!isPasswordMatched) {

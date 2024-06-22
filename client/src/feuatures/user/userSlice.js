@@ -26,6 +26,10 @@ const setFail = (state, action) => {
   state.user = null;
 };
 
+const setError = (state) => {
+  state.error = false;
+};
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -37,6 +41,8 @@ export const userSlice = createSlice({
     signRequest: setLoading,
     signSuccess: setSuccess,
     signFail: setFail,
+
+    clearError: setError,
   },
 });
 
@@ -48,6 +54,7 @@ export const {
   signSuccess,
   signRequest,
   signFail,
+  clearError,
 } = userSlice.actions;
 
 export default userSlice.reducer;

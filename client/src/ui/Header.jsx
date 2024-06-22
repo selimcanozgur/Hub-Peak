@@ -17,6 +17,7 @@ const LiItem = () => {
 };
 
 const Header = () => {
+  const { isAuthenticated } = useSelector((state) => state.user);
   return (
     <div className="navbar border shadow-md py-6 px-16">
       <div className="navbar-start">
@@ -57,12 +58,48 @@ const Header = () => {
       </div>
       <div className="navbar-end space-x-2">
         <Search />
-        <Button color="bg-blue-300">
-          <Link to="/signup">Kayıt Ol</Link>
-        </Button>
-        <Button color="bg-green-300">
-          <Link to="/login"> Giriş Yap </Link>
-        </Button>
+        {isAuthenticated ? (
+          <>
+            <div className="dropdown dropdown-end">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle avatar"
+              >
+                <div className="w-10 rounded-full">
+                  <img
+                    alt="Tailwind CSS Navbar component"
+                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                  />
+                </div>
+              </div>
+              <ul
+                tabIndex={0}
+                className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+              >
+                <li>
+                  <a className="justify-between">
+                    Profil
+                    <span className="badge">Yeni</span>
+                  </a>
+                </li>
+
+                <li>
+                  <a>Çıkış</a>
+                </li>
+              </ul>
+            </div>
+          </>
+        ) : (
+          <>
+            <Button color="bg-blue-300">
+              <Link to="/signup">Kayıt Ol</Link>
+            </Button>
+            <Button color="bg-green-300">
+              <Link to="/login"> Giriş Yap </Link>
+            </Button>
+          </>
+        )}
       </div>
     </div>
   );

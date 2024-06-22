@@ -11,7 +11,7 @@ const signToken = (id) => {
   });
 };
 
-const createSendToken = (user, statusCode, req, res) => {
+const SendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
 
   res.cookie("jwt", token, {
@@ -42,7 +42,7 @@ const signup = catchAsync(async function (req, res, next) {
     image,
     role,
   });
-  createSendToken(user, 201, req, res);
+  SendToken(user, 201, req, res);
 });
 
 // Login
@@ -62,7 +62,7 @@ const login = catchAsync(async function (req, res, next) {
   if (!isPasswordMatched) {
     return next(new apiError("Geçersiz e-posta veya şifre", 401));
   }
-  sendToken(user, 200, res);
+  SendToken(user, 200, req, res);
 });
 
 // Logout
@@ -143,7 +143,7 @@ const resetPassword = catchAsync(async function (req, res, next) {
   user.resetPasswordExpire = undefined;
 
   await user.save();
-  sendToken(user, 200, res);
+  SendToken(user, 200, req, res);
 });
 
 // Get User Detail
@@ -174,7 +174,7 @@ const updatePassword = catchAsync(async function (req, res, next) {
 
   await user.save();
 
-  sendToken(user, 200, res);
+  SendToken(user, 200, req, res);
 });
 
 // Update User Profile

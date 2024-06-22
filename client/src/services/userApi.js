@@ -6,9 +6,6 @@ import {
   signSuccess,
   signRequest,
   signFail,
-  loadUserSuccess,
-  loadUserRequest,
-  loadUserFail,
 } from "../feuatures/user/userSlice";
 
 export const login = (email, password) => async (dispatch) => {
@@ -43,15 +40,5 @@ export const signUp = (name, email, password, image) => async (dispatch) => {
     dispatch(signSuccess(data.user));
   } catch (err) {
     dispatch(signFail(err.response.data.message));
-  }
-};
-
-export const loadUser = () => async (dispatch) => {
-  try {
-    dispatch(loadUserRequest());
-    const { data } = await axios.get(`http://127.0.0.1:3000/api/v1/users/me`);
-    dispatch(loadUserSuccess(data.user));
-  } catch (err) {
-    dispatch(loadUserFail(err.response.data.message));
   }
 };

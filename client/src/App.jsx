@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Suspense, lazy } from "react";
+import React, { Suspense, lazy } from "react";
 import Loader from "./components/Loader";
+import PrivateRoute from "./pages/admin/PrivateRoute";
 
 const Home = lazy(() => import("./pages/Home"));
 const Book = lazy(() => import("./feuatures/book/Book"));
@@ -8,6 +9,7 @@ const BookDetail = lazy(() => import("./feuatures/book/BookDetail"));
 const Login = lazy(() => import("./pages/Login"));
 const SignUp = lazy(() => import("./pages/SignUp"));
 const Header = lazy(() => import("./ui/Header"));
+const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
 
 const App = () => {
   return (
@@ -20,6 +22,9 @@ const App = () => {
           <Route path="book/:id" element={<BookDetail />}></Route>
           <Route path="login" element={<Login />}></Route>
           <Route path="signup" element={<SignUp />}></Route>
+          <Route element={<PrivateRoute />}>
+            <Route path="dashboard" element={<Dashboard />} />
+          </Route>
         </Routes>
       </Suspense>
     </BrowserRouter>

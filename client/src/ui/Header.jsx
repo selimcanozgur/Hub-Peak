@@ -1,6 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import Button from "../components/Button";
 import Search from "../components/Search";
+import { useSelector } from "react-redux";
 
 const LiItem = () => {
   return (

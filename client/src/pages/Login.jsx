@@ -9,9 +9,7 @@ import Error from "../components/Error";
 const Login = () => {
   const navigate = useNavigate();
   const { user, error, isAuthenticated } = useSelector((state) => state.user);
-  console.log(user);
 
-  console.log(isAuthenticated);
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

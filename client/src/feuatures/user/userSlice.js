@@ -37,10 +37,6 @@ export const userSlice = createSlice({
     signRequest: setLoading,
     signSuccess: setSuccess,
     signFail: setFail,
-
-    loadUserRequest: setLoading,
-    loadUserSuccess: setSuccess,
-    loadUserFail: setFail,
   },
 });
 
@@ -52,9 +48,6 @@ export const {
   signSuccess,
   signRequest,
   signFail,
-  loadUserSuccess,
-  loadUserRequest,
-  loadUserFail,
 } = userSlice.actions;
 
 export default userSlice.reducer;

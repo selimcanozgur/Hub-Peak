@@ -1,9 +1,17 @@
+import { NavLink } from "react-router-dom";
+
 const Navbar = () => {
   return (
     <nav>
       <ul className="flex gap-12 font-montserrat font-medium text-sm">
-        <li>Home</li>
-        <li>Books</li>
+        <li>
+          <NavLink to="/">Home</NavLink>
+        </li>
+
+        <li>
+          <NavLink to="/books">Books </NavLink>
+        </li>
+
         <li>Contact</li>
       </ul>
     </nav>

@@ -1,11 +1,5 @@
-import HomeSection from "../components/HomeSection";
-
-const HomePage = () => {
-  return (
-    <div className="mt-12">
-      <HomeSection />
-    </div>
-  );
+const Home = () => {
+  return <div>Home</div>;
 };
 
-export default HomePage;
+export default Home;

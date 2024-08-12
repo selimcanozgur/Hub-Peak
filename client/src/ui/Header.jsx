@@ -2,22 +2,31 @@ import { Link, NavLink } from "react-router-dom";
 import Button from "../components/Button";
 import Search from "../components/Search";
 import { useSelector } from "react-redux";
+import Logout from "../feuatures/user/Logout";
+import Logo from "../components/Logo";
 
 const LiItem = () => {
   return (
     <>
       <li>
-        <NavLink to="/">Home</NavLink>
+        <NavLink to="/">Anasayfa</NavLink>
       </li>
       <li>
-        <NavLink to="/books">Books</NavLink>
+        <NavLink to="/books">Kitaplar</NavLink>
+      </li>
+      <li>
+        <NavLink to="/about">Hakkımızda</NavLink>
+      </li>
+      <li>
+        <NavLink to="/contact">İletişim</NavLink>
       </li>
     </>
   );
 };
 
 const Header = () => {
-  const { isAuthenticated } = useSelector((state) => state.user);
+  const { user, isAuthenticated } = useSelector((state) => state.users);
+
   return (
     <div className="navbar border shadow-md py-6 px-16">
       <div className="navbar-start">
@@ -46,12 +55,11 @@ const Header = () => {
             <LiItem />
           </ul>
         </div>
-        <p className="text-3xl uppercase font-semibold">
-          <Link to="/"> 📕 Hub Peak </Link>
-        </p>
+        {/*Logo*/}
+        <Logo />
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu font-semibold menu-horizontal px-1">
+        <ul className="menu menu-horizontal px-1 font-medium text-md gap-8 font-montserrat">
           {/*Main Nav*/}
           <LiItem />
         </ul>
@@ -69,24 +77,38 @@ const Header = () => {
                 <div className="w-10 rounded-full">
                   <img
                     alt="Tailwind CSS Navbar component"
-                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
                   />
                 </div>
               </div>
               <ul
                 tabIndex={0}
-                className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
               >
-                <li>
-                  <a className="justify-between">
-                    Profil
-                    <span className="badge">Yeni</span>
-                  </a>
-                </li>
-
-                <li>
-                  <a>Çıkış</a>
-                </li>
+                {user.role === "admin" ? (
+                  <>
+                    <li>
+                      <Link to="/dashboard">Admin Paneli</Link>
+                    </li>
+                    <li>
+                      <button>Ayarlar</button>
+                    </li>
+                    <li>
+                      <button>
+                        <Logout />
+                      </button>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li>
+                      <Link to="/dashboard">Profiles</Link>
+                    </li>
+                    <li>
+                      <Logout />
+                    </li>
+                  </>
+                )}
               </ul>
             </div>
           </>

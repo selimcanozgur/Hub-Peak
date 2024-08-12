@@ -14,14 +14,12 @@ import {
   deleteUser,
 } from "../controllers/authController.js";
 
-import { isAuthenticatedUser, authorizeRoles } from "../utils/auth.js";
-
 const Router = express.Router();
 
 Router.post("/signup", signup);
 Router.post("/login", login);
 Router.post("/password/forgot", forgotPassword);
-Router.get("/logout", logout);
+Router.post("/logout", logout);
 Router.put("/password/reset/:token", resetPassword);
 
 // -- User --

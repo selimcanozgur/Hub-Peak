@@ -1,29 +1,32 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../services/userApi";
-import Header from "../ui/Header";
-import Loader from "../components/Loader";
-import Error from "../components/Error";
+import { loginRequest, loginSuccess, loginFail } from "./userSlice";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
-  const navigate = useNavigate();
-  const { user, error, isAuthenticated } = useSelector((state) => state.user);
-
-  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(login(email, password));
-  };
+    try {
+      dispatch(loginRequest());
+      const config = { headers: { "Content-Type": "application/json" } };
+      const { data } = await axios.post("/api/v1/users/login", {
+        email,
+        password,
+        config,
+      });
 
-  useEffect(() => {
-    if (isAuthenticated) {
+      dispatch(loginSuccess(data));
       navigate("/");
+    } catch (err) {
+      dispatch(loginFail(err.response.data.message));
     }
-  }, [isAuthenticated, navigate]);
+  };
 
   return (
     <>
@@ -74,7 +77,6 @@ const Login = () => {
                 </button>
               </div>
             </form>
-            {error && <Error>{error}</Error>}
           </div>
         </div>
       </div>

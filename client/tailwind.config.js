@@ -4,8 +4,14 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {},
+    fontFamily: {
+      montserrat: ["Montserrat", "sans-serif"],
+      playfair: ["Playfair Display", "serif"],
+      raleway: ["Raleway", "sans-serif"],
+    },
   },
   plugins: [require("daisyui")],
+
   daisyui: {
     themes: false, // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
     darkTheme: false, // name of one of the included themes for dark mode

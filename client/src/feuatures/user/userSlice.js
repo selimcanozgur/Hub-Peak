@@ -14,7 +14,7 @@ const setLoading = (state) => {
 };
 
 const setSuccess = (state, action) => {
-  state.user = action.payload;
+  state.user = action.payload.user;
   state.isAuthenticated = true;
   state.loading = false;
 };
@@ -30,8 +30,15 @@ const setError = (state) => {
   state.error = false;
 };
 
+const setLogout = (state) => {
+  state.user = null;
+  state.loading = false;
+  state.error = false;
+  state.isAuthenticated = false;
+};
+
 export const userSlice = createSlice({
-  name: "user",
+  name: "users",
   initialState,
   reducers: {
     loginRequest: setLoading,
@@ -43,6 +50,7 @@ export const userSlice = createSlice({
     signFail: setFail,
 
     clearError: setError,
+    userLogout: setLogout,
   },
 });
 
@@ -55,6 +63,7 @@ export const {
   signRequest,
   signFail,
   clearError,
+  userLogout,
 } = userSlice.actions;
 
 export default userSlice.reducer;

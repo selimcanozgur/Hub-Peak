@@ -1,25 +1,26 @@
-import React, { useEffect, useState } from "react";
-import DashSideBar from "../../components/DashSideBar";
-import DashProfile from "../../components/DashProfile";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
+import Profile from "../components/Profile";
 
 const Dashboard = () => {
   const location = useLocation();
   const [tab, setTab] = useState("");
+
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    const tabFromUrl = urlParams.get("tab");
+    const tabFromUrl = urlParams.get(tab);
     if (tabFromUrl) {
       setTab(tabFromUrl);
     }
-  }, [location.search]);
+  }, [location.search, tab]);
+
   return (
-    <div>
+    <div className="grid grid-cols-2">
       <div>
-        <DashSideBar />
+        <Sidebar />
       </div>
-      {/*Profile*/}
-      {tab === "profile" && <DashProfile />}
+      {tab === "profile" && <Profile />}
     </div>
   );
 };

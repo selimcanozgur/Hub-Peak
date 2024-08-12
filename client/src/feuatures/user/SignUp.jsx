@@ -1,31 +1,6 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { signUp } from "../services/userApi";
-import Header from "../ui/Header";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
-  const { user, isAuthenticated } = useSelector((state) => state.user);
-  console.log(user);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [image, setImage] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(signUp(name, email, password, image));
-  };
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/");
-    }
-  }, [isAuthenticated, navigate]);
-
   return (
     <>
       <div className="hero py-12 bg-slate-100">
@@ -40,14 +15,12 @@ const SignUp = () => {
             </p>
           </div>
           <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-            <form className="card-body" onSubmit={handleSubmit}>
+            <form className="card-body">
               <label>İsim</label>
               <input
                 type="text"
                 placeholder="Örn: Selimcan"
                 className="input input-bordered"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
               />
 
               <label>E-Posta</label>
@@ -55,8 +28,6 @@ const SignUp = () => {
                 type="email"
                 placeholder="Örn: selimozgur26@gmail.com"
                 className="input input-bordered"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
               />
 
               <label className="label">Şifre</label>
@@ -64,8 +35,6 @@ const SignUp = () => {
                 type="password"
                 placeholder="**********"
                 className="input input-bordered"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
               />
 
               <label className="form-control w-full max-w-xs">
@@ -74,8 +43,6 @@ const SignUp = () => {
                 </div>
                 <input
                   type="file"
-                  value={image}
-                  onChange={(e) => setImage(e.target.value)}
                   className="file-input file-input-bordered w-full max-w-xs"
                 />
               </label>

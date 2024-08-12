@@ -36,12 +36,16 @@ export const bookSlice = createSlice({
     bookDetailSuccess: (state, action) => {
       state.book = action.payload.book;
       state.loading = false;
+      state.error = false;
     },
     bookDetailFail: setFail,
     // Book Search
     bookSearch: (state, action) => {
       state.keyword = action.payload;
       state.loading = false;
+    },
+    errorClear: (state) => {
+      state.error = false;
     },
   },
 });
@@ -55,6 +59,7 @@ export const {
   bookDetailRequest,
   bookDetailFail,
   bookSearch,
+  errorClear,
 } = bookSlice.actions;
 
 export default bookSlice.reducer;

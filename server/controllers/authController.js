@@ -27,7 +27,6 @@ const SendToken = (user, statusCode, req, res) => {
 
   res.status(statusCode).json({
     status: "success",
-    token,
     user,
   });
 };
@@ -66,17 +65,13 @@ const login = catchAsync(async function (req, res, next) {
 });
 
 // Logout
-const logout = catchAsync(async function (req, res, next) {
-  res.cookie("token", null, {
-    expires: new Date(Date.now()),
-    httpOnly: true,
-  });
-
-  res.status(200).json({
-    status: true,
-    message: "Çıkış yapıldı",
-  });
-});
+const logout = async function (req, res, next) {
+  try {
+    res.clearCookie("jwt").status(200).json("Çıkış yapıldı");
+  } catch (error) {
+    next(error);
+  }
+};
 
 // Forgot Password
 const forgotPassword = catchAsync(async function (req, res, next) {
@@ -128,7 +123,7 @@ const resetPassword = catchAsync(async function (req, res, next) {
   if (!user) {
     return next(
       new apiError(
-        "Parola sıfırlama belirteci geçersiz ya da süresi dolmuş",
+        "Parola sıfırlama belirteci geçersiz ya da süresi dolmuş  ",
         400
       )
     );

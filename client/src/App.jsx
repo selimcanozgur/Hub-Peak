@@ -1,15 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React, { Suspense, lazy } from "react";
 import Loader from "./components/Loader";
-import PrivateRoute from "./pages/admin/PrivateRoute";
 
 const Home = lazy(() => import("./pages/Home"));
 const Book = lazy(() => import("./feuatures/book/Book"));
 const BookDetail = lazy(() => import("./feuatures/book/BookDetail"));
-const Login = lazy(() => import("./pages/Login"));
-const SignUp = lazy(() => import("./pages/SignUp"));
+const Login = lazy(() => import("./feuatures/user/Login"));
+const SignUp = lazy(() => import("./feuatures/user/SignUp"));
 const Header = lazy(() => import("./ui/Header"));
-const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const ProtectedRoutes = lazy(() => import("./utils/ProtectedRoutes"));
 
 const App = () => {
   return (
@@ -17,12 +17,13 @@ const App = () => {
       <Suspense fallback={<Loader />}>
         <Header />
         <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="books" element={<Book />}></Route>
-          <Route path="book/:id" element={<BookDetail />}></Route>
-          <Route path="login" element={<Login />}></Route>
-          <Route path="signup" element={<SignUp />}></Route>
-          <Route element={<PrivateRoute />}>
+          <Route path="/" element={<Home />} />
+          <Route path="books" element={<Book />} />
+          <Route path="book/:id" element={<BookDetail />} />
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<SignUp />} />
+          {/*DASHBOARD*/}
+          <Route element={<ProtectedRoutes />}>
             <Route path="dashboard" element={<Dashboard />} />
           </Route>
         </Routes>

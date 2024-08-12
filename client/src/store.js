@@ -1,16 +1,14 @@
-// IMPORT Redux config and persist
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { persistReducer } from "redux-persist";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import persistStore from "redux-persist/es/persistStore";
 
-// IMPORT Reducers
-import bookRedurcer from "./feuatures/book/bookSlice";
+// Reducers
+import bookReducer from "./feuatures/book/bookSlice";
 import userReducer from "./feuatures/user/userSlice";
 
 const rootReducer = combineReducers({
-  user: userReducer,
-  books: bookRedurcer,
+  books: bookReducer,
+  users: userReducer,
 });
 
 const persistConfig = {

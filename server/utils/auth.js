@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 // Kullanıcı kimliği doğrulama
 const isAuthenticatedUser = catchAsync(async function (req, res, next) {
-  const { token } = req.cookies;
+  const token = req.cookies.jwt;
 
   if (!token) {
     return next(new apiError("Bu alana erişebilmek için giriş yapın", 401));
